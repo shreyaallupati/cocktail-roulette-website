@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= cocktail.strDrink %></title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+      <div class="cocktail-detail">
+        <div class="detail-image">
+          <img
+            src="<%= cocktail.strDrinkThumb %>"
+            alt="<%= cocktail.strDrink %>"
+          />
+        </div>
+
+        <div class="detail-content">
+          <h1><%= cocktail.strDrink %></h1>
+
+          <div class="tags">
+            <span class="tag"><%= cocktail.strCategory %></span>
+            <span class="tag"><%= cocktail.strAlcoholic %></span>
+            <span class="tag">🥃 <%= cocktail.strGlass %></span>
+          </div>
+
+          <div class="section">
+            <h2>🧪 Ingredients</h2>
+            <ul class="ingredients-list">
+              <% ingredients.forEach(item => { %>
+              <li>
+                <span class="measure"><%= item.measure %></span>
+                <span class="ingredient"><%= item.ingredient %></span>
+              </li>
+              <% }); %>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h2>📝 Instructions</h2>
+            <p class="instructions"><%= cocktail.strInstructions %></p>
+          </div>
+
+          <% if (cocktail.strVideo) { %>
+          <div class="section">
+            <h2>🎥 Video Tutorial</h2>
+            <a
+              href="<%= cocktail.strVideo %>"
+              target="_blank"
+              class="video-link"
+              >Watch on YouTube →</a
+            >
+          </div>
+          <% } %>
+
+          <a href="/" class="back-btn">← Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

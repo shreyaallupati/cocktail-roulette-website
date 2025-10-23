@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Cocktails</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+      <h1>📚 Browse by Letter</h1>
+
+      <div class="alphabet">
+        <% 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(l => { %>
+        <a
+          href="/browse?letter=<%= l %>"
+          class="<%= l === letter ? 'active' : '' %>"
+          ><%= l.toUpperCase() %></a
+        >
+        <% }); %>
+      </div>
+
+      <% if (cocktails && cocktails.length > 0) { %>
+      <div class="cocktail-grid">
+        <% cocktails.forEach(cocktail => { %>
+        <a href="/cocktail/<%= cocktail.idDrink %>" class="cocktail-card">
+          <img
+            src="<%= cocktail.strDrinkThumb %>/preview"
+            alt="<%= cocktail.strDrink %>"
+          />
+          <h3><%= cocktail.strDrink %></h3>
+        </a>
+        <% }); %>
+      </div>
+      <% } else { %>
+      <p class="no-results">
+        No cocktails found starting with "<%= letter.toUpperCase() %>"
+      </p>
+      <% } %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filter Cocktails</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+      <h1>🎯 Filter Cocktails</h1>
+
+      <form method="POST" action="/filter" class="filter-form">
+        <div class="filter-group">
+          <label>Filter by:</label>
+          <select name="filterType" id="filterType" required>
+            <option value="">Select type...</option>
+            <option value="category">Category</option>
+            <option value="glass">Glass Type</option>
+            <option value="ingredient">Ingredient</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Choose:</label>
+          <select name="filterValue" id="filterValue" required>
+            <option value="">Select a filter type first...</option>
+          </select>
+        </div>
+
+        <button type="submit">Apply Filter</button>
+      </form>
+
+      <% if (cocktails && cocktails.length > 0) { %>
+      <div class="cocktail-grid">
+        <% cocktails.forEach(cocktail => { %>
+        <a href="/cocktail/<%= cocktail.idDrink %>" class="cocktail-card">
+          <img
+            src="<%= cocktail.strDrinkThumb %>/preview"
+            alt="<%= cocktail.strDrink %>"
+          />
+          <h3><%= cocktail.strDrink %></h3>
+        </a>
+        <% }); %>
+      </div>
+      <% } else if (cocktails === null) { %>
+      <p class="hint">👆 Select a filter above to discover cocktails!</p>
+      <% } else { %>
+      <p class="no-results">No cocktails found with this filter.</p>
+      <% } %>
+    </div>
+
+    <script>
+      const filterData = {
+        category: <%- JSON.stringify(categories || []) %>,
+        glass: <%- JSON.stringify(glasses || []) %>,
+        ingredient: <%- JSON.stringify(ingredients || []) %>
+      };
+
+      const filterType = document.getElementById('filterType');
+      const filterValue = document.getElementById('filterValue');
+
+      filterType.addEventListener('change', function() {
+        filterValue.innerHTML = '<option value="">Select...</option>';
+
+        if (this.value && filterData[this.value]) {
+          filterData[this.value].forEach(item => {
+            const key = this.value === 'category' ? 'strCategory' :
+                       this.value === 'glass' ? 'strGlass' : 'strIngredient1';
+            const option = document.createElement('option');
+            option.value = item[key];
+            option.textContent = item[key];
+            filterValue.appendChild(option);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

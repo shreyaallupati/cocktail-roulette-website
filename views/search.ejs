@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Cocktails</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+      <h1>🔍 Search Cocktails</h1>
+
+      <form method="POST" action="/search" class="search-form">
+        <input
+          type="text"
+          name="query"
+          placeholder="Search for a cocktail..."
+          value="<%= query %>"
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <% if (cocktails && cocktails.length > 0) { %>
+      <div class="cocktail-grid">
+        <% cocktails.forEach(cocktail => { %>
+        <a href="/cocktail/<%= cocktail.idDrink %>" class="cocktail-card">
+          <img
+            src="<%= cocktail.strDrinkThumb %>/preview"
+            alt="<%= cocktail.strDrink %>"
+          />
+          <h3><%= cocktail.strDrink %></h3>
+        </a>
+        <% }); %>
+      </div>
+      <% } else if (query) { %>
+      <p class="no-results">
+        No cocktails found for "<%= query %>". Try another search!
+      </p>
+      <% } %>
+    </div>
+  </body>
+</html>

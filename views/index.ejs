@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cocktail Roulette 🍹</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+      <div class="hero">
+        <h1>🎰 Cocktail Roulette</h1>
+        <p>Feeling lucky? Here's a random cocktail for you!</p>
+        <form method="GET" action="/">
+          <button type="submit" class="spin-btn">🔄 SPIN AGAIN</button>
+        </form>
+      </div>
+
+      <% if (cocktail) { %>
+      <div class="featured-cocktail">
+        <div class="cocktail-image">
+          <img
+            src="<%= cocktail.strDrinkThumb %>"
+            alt="<%= cocktail.strDrink %>"
+          />
+        </div>
+        <div class="cocktail-info">
+          <h2><%= cocktail.strDrink %></h2>
+          <div class="tags">
+            <span class="tag"><%= cocktail.strCategory %></span>
+            <span class="tag"><%= cocktail.strAlcoholic %></span>
+            <span class="tag">🥃 <%= cocktail.strGlass %></span>
+          </div>
+          <a href="/cocktail/<%= cocktail.idDrink %>" class="view-details"
+            >View Full Recipe →</a
+          >
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>
