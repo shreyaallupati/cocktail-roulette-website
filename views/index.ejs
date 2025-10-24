@@ -22,8 +22,10 @@
       <div class="featured-cocktail">
         <div class="cocktail-image">
           <img
-            src="<%= cocktail.strDrinkThumb %>"
+            src="/image-proxy?url=<%= encodeURIComponent(cocktail.strDrinkThumb) %>" 
+
             alt="<%= cocktail.strDrink %>"
+            lazy="true"
           />
         </div>
         <div class="cocktail-info">

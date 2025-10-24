@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const path = require("path");
+const sharp = require("sharp");
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +11,36 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+
+// Image compression and proxy route
+app.get("/image-proxy", async (req, res) => {
+  const imageUrl = req.query.url;
+  if (!imageUrl) {
+    return res.status(400).send("Image URL is required.");
+  }
+
+  try {
+    // Fetch the image from the external API
+    const response = await axios.get(imageUrl, {
+      responseType: "arraybuffer",
+    });
+
+    // Use sharp to process and compress the image
+    const compressedImageBuffer = await sharp(response.data)
+      .resize(300) // Example: Resize to a max width of 300px
+      .webp({ quality: 80 }) // Example: Convert to WebP format with 80% quality
+      .toBuffer();
+
+    // Set appropriate headers and send the compressed image
+    res.set("Content-Type", "image/webp");
+    res.set("Content-Length", compressedImageBuffer.length);
+    res.send(compressedImageBuffer);
+  } catch (error) {
+    console.error("Error compressing image:", error);
+    res.status(500).send("Failed to process image.");
+  }
+});
+
 
 // Home page - random cocktail showcase
 app.get("/", async (req, res) => {
@@ -116,6 +147,6 @@ app.get("/cocktail/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🍹 Cocktail Roulette running on http://localhost:${PORT}`);
 });
