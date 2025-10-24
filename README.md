@@ -95,5 +95,5 @@ This project uses [TheCocktailDB API](https://www.thecocktaildb.com/api.php) wit
 - Detailed cocktail recipes with ingredients
 
 Enjoy discovering new cocktails! 🍸
-# cocktail-roulette
-# cocktail-roulette-website
+#cocktail-roulette
+#cocktail-roulette-website
